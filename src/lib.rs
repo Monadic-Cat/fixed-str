@@ -129,3 +129,14 @@ pub struct CharIndices<'a, const SIZE: usize> {
 fn slice_error_fail<const SIZE: usize>(_s: &Str<SIZE>, _begin: usize, _end: usize) -> ! {
     todo!("copying std failure to slice error abort thingy")
 }
+
+// Implementations I just want, lol.
+impl<const N: usize> Str<N> {
+    // These two method names are copied from the array type.
+    pub fn as_slice(&self) -> &str {
+        unsafe { ::core::str::from_utf8_unchecked(&self.buf) }
+    }
+    pub fn as_slice_mut(&mut self) -> &mut str {
+        unsafe { ::core::str::from_utf8_unchecked_mut(&mut self.buf) }
+    }
+}
