@@ -13,6 +13,7 @@
 
 //! The [`Str`] type, a fixed sized version of [`str`].
 //! See the [`str`] docs for most methods defined here.
+#[repr(transparent)]
 pub struct Str<const SIZE: usize> {
     buf: [u8; SIZE],
 }
@@ -138,5 +139,10 @@ impl<const N: usize> Str<N> {
     }
     pub fn as_slice_mut(&mut self) -> &mut str {
         unsafe { ::core::str::from_utf8_unchecked_mut(&mut self.buf) }
+    }
+    // this one i just want
+    pub fn zeroed() -> Self {
+        // Safety: repeated 0 bytes is valid UTF-8 lol
+        Self { buf: [0; N] }
     }
 }
